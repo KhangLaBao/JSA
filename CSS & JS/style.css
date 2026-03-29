@@ -1,0 +1,188 @@
+/* Tổng thể nền tảng Web 2.0 */
+body {
+    background-color: #d1d9e3;
+    background-image: radial-gradient(circle at top, #ebeef2 0%, #d1d9e3 100%);
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    margin: 20px;
+}
+
+h2 {
+    color: #2c539e;
+    text-shadow: 1px 1px 0px #fff;
+    font-size: 28px;
+}
+
+/* Ô nhập liệu bóng loáng */
+input[type="text"] {
+    padding: 10px;
+    border: 1px solid #999;
+    border-radius: 20px; /* Bo tròn kiểu Web 2.0 */
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+    outline: none;
+    font-size: 14px;
+}
+
+/* Nút bấm hiệu ứng Glass/Glossy */
+button, .ios-btn {
+    background: linear-gradient(to bottom, #7db9e8 0%, #2989d8 50%, #1e5799 100%);
+    border: 1px solid #143d6b;
+    border-radius: 6px;
+    color: white;
+    padding: 8px 18px;
+    font-weight: bold;
+    cursor: pointer;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.5);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.4);
+    transition: all 0.2s;
+}
+
+button:hover, .ios-btn:hover {
+    background: linear-gradient(to bottom, #8ec5f0 0%, #3596e8 50%, #2262ab 100%);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.5);
+}
+
+button:active, .ios-btn:active {
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+    transform: translateY(1px);
+}
+
+/* Card chứa thông tin game */
+.glossy-card {
+    background: #fdfdfd;
+    background: linear-gradient(to bottom, #ffffff 0%, #f0f3f7 100%);
+    border: 1px solid #a6b1bd;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    margin-top: 20px;
+}
+
+.glossy-card h1 {
+    color: #1a3a6d;
+    border-bottom: 2px solid #2989d8;
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+
+/* Các hàng thông tin */
+.ios-row {
+    background: #fff;
+    border: 1px solid #ddd;
+    margin-bottom: 2px;
+    padding: 12px;
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+/* Phần hiển thị Review */
+.ios-section {
+    border: 1px solid #c0cdd9;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+/* Grid Artworks bóng bẩy */
+.artwork-frame {
+    border: 4px solid #fff;
+    outline: 1px solid #ccc;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.artwork-frame:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+}
+
+/* Ảnh Screenshot */
+.screenshot-gallery img {
+    border: 5px solid white;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+}
+
+/* Hiệu ứng Loading */
+.loading {
+    color: #2989d8;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+input[type="text"] {
+    padding: 10px;
+    border: 1px solid #999;
+    /* Thay đổi border-radius từ 20px thành 3px hoặc 4px */
+    border-radius: 3px; 
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1); /* Đổ bóng nhẹ phía trong */
+    outline: none;
+    font-size: 14px;
+    background-color: white;
+}
+
+.artwork-frame {
+    background: #fff;
+    padding: 10px;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    /* Giới hạn kích thước khung */
+    max-width: 450px; 
+    margin: 0 auto;
+}
+
+.artwork-frame img {
+    /* Ép ảnh phải vừa khít khung nhưng không quá 500px */
+    max-width: 100%;
+    max-height: 400px; 
+    display: block;
+    object-fit: contain; /* Giữ nguyên tỉ lệ ảnh, không bị méo */
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.artwork-frame img:hover {
+    transform: scale(1.02);
+}
+
+.tag-pill {
+    display: inline-block;
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    padding: 2px 8px;
+    margin: 3px;
+    font-size: 11px;
+    color: #475569;
+    font-weight: 500;
+}
+
+.ios-btn {
+    background: linear-gradient(to bottom, #4c89d4 0%, #215a9a 100%);
+    border: 1px solid #1a4677;
+    border-radius: 4px;
+    color: white;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.5);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 1px 2px rgba(0,0,0,0.2);
+}
+
+.ios-btn:active {
+    background: #1a4677;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+}
