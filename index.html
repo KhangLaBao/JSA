@@ -7,16 +7,100 @@
 
 
 <body>
-    <h2>Steam Game Inspector</h2>
-    <p>Dán link Steam (VD: https://store.steampowered.com/app/730/...) hoặc nhập ID:</p>
-    <input type="text" id="steamInput" style="width: 400px;" placeholder="https://store.steampowered.com/app/730/...">
-    <button id="inspectBtn">Inspect Game</button>
-    
-    <div id="status" style="margin-top: 10px; font-weight: bold;"></div>
-    <hr>
-    <div id="gameDisplay">
+    <!-- Glossy Taskbar -->
+    <div class="glossy-taskbar">
+        <div class="taskbar-content">
+            <div class="taskbar-logo">🎮 Game Inspector</div>
+            <div class="taskbar-buttons">
+                <button class="taskbar-btn" onclick="navigateTo('#')">🏠 Home</button>
+                <a href="gamelist.html" class="taskbar-btn" style="text-decoration: none; color: white;">📋 Game List</a>
+                <button class="taskbar-btn" onclick="navigateTo('#help')">❓ Help</button>
+            </div>
         </div>
+    </div>
+
+    <h2>Steam Game Inspector</h2>
+    
+    <!-- Pages Container -->
+
+
+
+    <div id="page-home" class="page-content" style="display: block;">
+        <div style="text-align: center; margin: 50px 0;">
+            <h1 style="color: #2c539e; margin-bottom: 30px;">🎮 Steam Game Inspector</h1>
+            <p style="font-size: 16px; color: #666; margin-bottom: 30px;">Search and inspect Steam games with ease</p>
+            <input type="text" id="steamInput" style="width: 500px; padding: 15px; font-size: 16px;" placeholder="Enter game name, Steam link, or App ID...">
+            <br><br>
+            <button id="inspectBtn" style="padding: 12px 30px; font-size: 16px;">🔍 Inspect Game</button>
+        </div>
+    </div>
+
+
+
+
+    <div id="page-results" class="page-content" style="display: none;">
+        <div style="text-align: center; margin-bottom: 20px;">
+            <button onclick="navigateTo('#')" style="padding: 8px 16px; background: #2989d8; color: white; border: none; border-radius: 4px; cursor: pointer;">← Back to Home</button>
+        </div>
+        <div id="status" style="margin-top: 10px; font-weight: bold; text-align: center;"></div>
+        <hr>
+        <div id="gameDisplay"></div>
+    </div>
+
+
+
+
+
+
+
+    <div id="page-help" class="page-content" style="display: none;">
+        <h3>Help & Documentation</h3>
+        <p><strong>How to use Steam Game Inspector:</strong></p>
+        <ul>
+            <li>Enter a Steam game link or App ID</li>
+            <li>Click "Inspect Game" to fetch details</li>
+            <li>View system requirements, reviews, artworks, and more</li>
+            <li>Supports 400+ games with multiple search keywords</li>
+        </ul>
+        <p><strong>Example:</strong> Try searching for "dota", "cs2", "minecraft", or "skyrim"</p>
+    </div>
+
     <pre id="rawOutput" style="background: #eee; padding: 10px; font-size: 11px; display: none;"></pre>
+
+    <script>
+        // Simple page navigation using hash
+        function navigateTo(page) {
+            window.location.hash = page.replace('#', '') || '';
+            loadPage();
+        }
+
+        function loadPage() {
+            const hash = window.location.hash.slice(1) || 'home';
+            const pages = document.querySelectorAll('.page-content');
+            
+            pages.forEach(p => p.style.display = 'none');
+            
+            const targetPage = document.getElementById(`page-${hash}`);
+            if (targetPage) {
+                targetPage.style.display = 'block';
+            } else {
+                document.getElementById('page-home').style.display = 'block';
+            }
+        }
+
+        // Load page on initial load
+        window.addEventListener('hashchange', loadPage);
+        loadPage();
+        
+        // Check for selected game from gamelist.html
+        window.addEventListener('load', () => {
+            const selectedGame = localStorage.getItem('selectedGame');
+            if (selectedGame) {
+                document.getElementById('steamInput').value = selectedGame;
+                localStorage.removeItem('selectedGame'); // Clear it
+            }
+        });
+    </script>
 
     <script src="CSS & JS/script.js"></script>
 </body>

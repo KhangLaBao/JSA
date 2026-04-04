@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steam Game Database - Game Inspector</title>
+    <link rel="stylesheet" href="CSS & JS/style.css">
+
+</head>
+<body>
+    <!-- Glossy Taskbar -->
+    <div class="glossy-taskbar">
+        <div class="taskbar-content">
+            <div class="taskbar-logo">🎮 Game Inspector</div>
+            <div class="taskbar-buttons">
+                <a href="index.html" class="taskbar-btn" style="text-decoration: none; color: white;">🏠 Home</a>
+                <a href="index.html#help" class="taskbar-btn" style="text-decoration: none; color: white;">❓ Help</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="game-list-container">
+        <a href="index.html" class="back-btn">← Back to Game Inspector</a>
+        
+        <h1 style="color: #2c539e; text-align: center;">Steam Game Database</h1>
+        
+        <div class="game-stats">
+            <h2 id="total-games">Loading...</h2>
+            <p>Games available for inspection</p>
+        </div>
+        
+        <div id="game-list" class="game-grid">
+            <!-- Games will be populated here -->
+        </div>
+    </div>
+
+    <script src="CSS & JS/script.js"></script>
+    <script>
+        // Function to display game list
+        function displayGameList() {
+            // Wait for GAME_DATABASE to be available
+            if (typeof GAME_DATABASE === 'undefined') {
+                setTimeout(displayGameList, 100);
+                return;
+            }
+            
+            const gameListDiv = document.getElementById('game-list');
+            const totalGamesDiv = document.getElementById('total-games');
+            
+            // Get all game names (keys) from database
+            const gameNames = Object.keys(GAME_DATABASE);
+            const totalGames = gameNames.length;
+            
+            // Update total count
+            totalGamesDiv.textContent = `${totalGames} Games`;
+            
+            // Create game items
+            gameNames.sort().forEach(gameName => {
+                const gameId = GAME_DATABASE[gameName];
+                
+                const gameItem = document.createElement('div');
+                gameItem.className = 'game-item';
+                gameItem.innerHTML = `
+                    <div class="game-name">${gameName}</div>
+                    <div class="game-id">AppID: ${gameId}</div>
+                `;
+                
+                // Make it clickable to go back to inspector
+                gameItem.style.cursor = 'pointer';
+                gameItem.onclick = () => {
+                    // Store the game name in localStorage to pre-fill the input
+                    localStorage.setItem('selectedGame', gameName);
+                    window.location.href = 'index.html';
+                };
+                
+                gameListDiv.appendChild(gameItem);
+            });
+        }
+        
+        // Load the game list when page loads
+        window.addEventListener('load', displayGameList);
+    </script>
+</body>
+</html>

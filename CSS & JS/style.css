@@ -186,3 +186,184 @@ input[type="text"] {
     background: #1a4677;
     box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
 }
+
+/* ============ GLOSSY TASKBAR 2010s STYLE ============ */
+.glossy-taskbar {
+    background: linear-gradient(to bottom, 
+        #e8eef5 0%,
+        #c8d5e8 25%,
+        #7db9e8 60%,
+        #2989d8 85%,
+        #1a5fa0 100%);
+    border: 1px solid #1a3d66;
+    border-radius: 8px 8px 0 0;
+    padding: 0;
+    margin: -20px -20px 20px -20px;
+    box-shadow: 
+        inset 0 1px 0 rgba(255,255,255,0.8),
+        inset 0 2px 4px rgba(255,255,255,0.5),
+        0 4px 12px rgba(0,0,0,0.25);
+    height: 60px;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.glossy-taskbar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(to right, 
+        rgba(255,255,255,0.2), 
+        rgba(255,255,255,0.6) 50%, 
+        rgba(255,255,255,0.2));
+    border-radius: 8px 8px 0 0;
+}
+
+.taskbar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.taskbar-logo {
+    font-weight: bold;
+    color: white;
+    font-size: 14px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.4), 0 1px 0 rgba(255,255,255,0.3);
+    letter-spacing: 1px;
+}
+
+.taskbar-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.taskbar-btn {
+    background: linear-gradient(to bottom, 
+        #6ba3d8 0%, 
+        #4a8cc8 50%, 
+        #2d5b99 100%);
+    border: 1px solid #1a3d66;
+    border-radius: 4px;
+    color: white;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.5);
+    box-shadow: 
+        inset 0 1px 0 rgba(255,255,255,0.4),
+        inset 0 -1px 2px rgba(0,0,0,0.2),
+        0 2px 4px rgba(0,0,0,0.3);
+    transition: all 0.15s ease;
+    white-space: nowrap;
+}
+
+.taskbar-btn:hover {
+    background: linear-gradient(to bottom,
+        #7db9e8 0%,
+        #5b9dd5 50%,
+        #3d6ba8 100%);
+    box-shadow: 
+        inset 0 1px 0 rgba(255,255,255,0.5),
+        inset 0 -1px 2px rgba(0,0,0,0.2),
+        0 3px 6px rgba(0,0,0,0.4);
+}
+
+.taskbar-btn:active {
+    background: linear-gradient(to bottom,
+        #4a8cc8 0%,
+        #2d5b99 50%,
+        #1a3d66 100%);
+    box-shadow: 
+        inset 0 2px 4px rgba(0,0,0,0.4),
+        inset 0 -1px 0 rgba(255,255,255,0.2),
+        0 1px 2px rgba(0,0,0,0.2);
+    transform: translateY(1px);
+}
+
+/* Responsive Taskbar */
+@media (max-width: 768px) {
+    .glossy-taskbar {
+        height: 50px;
+    }
+    
+    .taskbar-content {
+        padding: 0 10px;
+    }
+    
+    .taskbar-logo {
+        font-size: 12px;
+    }
+    
+    .taskbar-btn {
+        padding: 4px 10px;
+        font-size: 11px;
+    }
+    
+    .taskbar-buttons {
+        gap: 4px;
+    }
+}
+
+        .game-list-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .game-stats {
+            background: linear-gradient(to bottom, #ffffff 0%, #f0f3f7 100%);
+            border: 1px solid #a6b1bd;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            text-align: center;
+        }
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        .game-item {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .game-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+        .game-name {
+            font-weight: bold;
+            color: #2c539e;
+            margin-bottom: 5px;
+        }
+        .game-id {
+            color: #666;
+            font-size: 12px;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background: #2989d8;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .back-btn:hover {
+            background: #1e5799;
+        }
