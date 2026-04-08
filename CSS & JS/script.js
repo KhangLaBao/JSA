@@ -43,31 +43,6 @@ async function getExtraInfo(endpoint, gameId) {
 }
 
 
-async function showRequirements(id) {
-// Thay thế đoạn hiển thị trong hàm showRequirements của bạn:
-const minContent = Array.isArray(req.min) ? req.min.join('<br>') : (req.min || 'N/A');
-const recommContent = Array.isArray(req.recomm) ? req.recomm.join('<br>') : (req.recomm || 'N/A');
-
-container.innerHTML = `
-    <div class="req-table" style="margin-top:15px; border:1px solid #999; border-radius:8px; overflow:hidden; background:#fff;">
-        <div style="background: linear-gradient(#f8f8f8, #e8e8e8); padding:10px; font-weight:bold; border-bottom:1px solid #ccc; color:#2d4b7a;">
-            🖥️ SYSTEM REQUIREMENTS
-        </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: #ccc;">
-            <div style="background: #fff; padding: 15px;">
-                <h4 style="margin-top:0; color:#c00;">MINIMUM:</h4>
-                <div style="font-size:12px; line-height:1.5;">${minContent}</div>
-            </div>
-            <div style="background: #fff; padding: 15px;">
-                <h4 style="margin-top:0; color:#060;">RECOMMENDED:</h4>
-                <div style="font-size:12px; line-height:1.5;">${recommContent}</div>
-            </div>
-        </div>
-    </div>
-`;
-}
-
-
 
 // HÀM SHOW REVIEWS (Phải nằm ngoài)
 // Hàm hiển thị Review
@@ -88,11 +63,11 @@ async function showReviews(id) {
     }
 
     container.innerHTML = reviews.map(rev => `
-        <div class="ios-section" style="border:1px solid #ccc; margin-bottom:10px; background:#fff;">
-            <div style="background:#f0f0f0; padding:5px; font-size:11px; border-bottom:1px solid #ddd;">
+        <div class="review-card">
+            <div class="review-card-header">
                 <strong>👍 ${rev.like || 0} Likes</strong> | ID: ${rev.id}
             </div>
-            <div style="padding:10px; font-size:13px; line-height:1.4;">${rev.content}</div>
+            <div class="review-card-body">${rev.content}</div>
         </div>
     `).join('');
 }
@@ -122,13 +97,12 @@ async function showArtworks(id) {
         // Render Artworks theo dạng GRID nhỏ gọn
         // Mình đặt style trực tiếp vào đây để bạn dễ test trước
         container.innerHTML = `
-            <div style="background:#fff; border:1px solid #ccc; border-radius:10px; padding:20px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); margin-top:20px;">
-                <h3 style="color:#2d4b7a; margin-top:0; border-bottom:1px solid #ddd; padding-bottom:10px;">Artworks Gallery</h3>
-                
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px; margin-top:15px;">
+            <div class="artwork-gallery-panel">
+                <h3>Artworks Gallery</h3>
+                <div class="artwork-grid">
                     ${artworks.map(url => `
-                        <div class="artwork-frame" style="background:#fff; padding:5px; border:1px solid #ccc; border-radius:4px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
-                            <img src="${url}" style="width:100%; display:block; border-radius:2px; cursor:pointer;" onclick="window.open('${url}', '_blank')">
+                        <div class="artwork-frame">
+                            <img src="${url}" onclick="window.open('${url}', '_blank')">
                         </div>
                     `).join('')}
                 </div>
@@ -268,18 +242,18 @@ async function showRequirements(id) {
         };
 
         container.innerHTML = `
-            <div class="req-table" style="margin-top:15px; border:1px solid #999; border-radius:8px; overflow:hidden; background:#fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-                <div style="background: linear-gradient(#f8f8f8, #e8e8e8); padding:10px; font-weight:bold; border-bottom:1px solid #ccc; color:#2d4b7a;">
+            <div class="req-table">
+                <div class="req-table-header">
                     🖥️ SYSTEM REQUIREMENTS
                 </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: #ccc;">
-                    <div style="background: #fff; padding: 15px;">
-                        <h4 style="margin-top:0; color:#c00;">MINIMUM:</h4>
-                        <div style="font-size:12px; line-height:1.5; color:#333;">${formatData(req.min)}</div>
+                <div class="req-table-grid">
+                    <div class="req-box">
+                        <h4>MINIMUM:</h4>
+                        <div>${formatData(req.min)}</div>
                     </div>
-                    <div style="background: #fff; padding: 15px;">
-                        <h4 style="margin-top:0; color:#060;">RECOMMENDED:</h4>
-                        <div style="font-size:12px; line-height:1.5; color:#333;">${formatData(req.recomm)}</div>
+                    <div class="req-box">
+                        <h4>RECOMMENDED:</h4>
+                        <div>${formatData(req.recomm)}</div>
                     </div>
                 </div>
             </div>
@@ -319,6 +293,41 @@ async function showVideos(id) {
 
 
 
+
+async function showScreenshots(id) {
+    const container = document.getElementById('extra-content');
+    container.innerHTML = "<div class='loading'>ĐANG TẢI SCREENSHOT...</div>";
+
+    try {
+        const result = await getExtraInfo('media/screenshots', id);
+        let screenshots = result?.data?.screenshots || result?.data?.screenshots_images || result?.data?.media?.screenshots || result?.data?.media?.screenshots_images;
+
+        if (!Array.isArray(screenshots) || screenshots.length === 0) {
+            container.innerHTML = "<p>Không tìm thấy screenshot nào.</p>";
+            return;
+        }
+
+        container.innerHTML = `
+            <div class="artwork-gallery-panel">
+                <h3>Screenshots</h3>
+                <div class="screenshot-gallery">
+                    ${screenshots.map((shot, index) => {
+                        const url = typeof shot === 'string'
+                            ? shot
+                            : shot.url || shot.image || shot.path_thumbnail || shot.thumbnail || shot.full || shot.path;
+                        return `
+                            <div class="artwork-frame screenshot-card">
+                                <img src="${url}" alt="Screenshot ${index + 1}" onclick="window.open('${url}', '_blank')">
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            </div>`;
+    } catch (err) {
+        container.innerHTML = "<p>Lỗi khi tải screenshot.</p>";
+        console.error(err);
+    }
+}
 
 const GAME_DATABASE = {
     // Counter-Strike
