@@ -332,6 +332,7 @@ async function showScreenshots(id) {
 const GAME_DATABASE = {
     // Counter-Strike
     "cs2": "730",
+    "Counter-Strike 2": "730",
     "cs 2": "730",
     "counter strike 2": "730",
     "Counter-Strike 2": "730",

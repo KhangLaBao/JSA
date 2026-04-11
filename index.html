@@ -10,6 +10,15 @@
 
 
 <body>
+    <!-- Auth Menu Bar -->
+    <div class="auth-menu">
+        <div class="auth-greeting" id="user-greeting">Hi, Guest</div>
+        <div class="auth-buttons" id="auth-buttons">
+            <a href="login.html" class="auth-btn">Login</a>
+            <a href="regis.html" class="auth-btn">Register</a>
+        </div>
+    </div>
+
     <!-- Steam-inspired Taskbar -->
     <div class="glossy-taskbar">
         <div class="taskbar-content">
@@ -73,6 +82,30 @@
     <pre id="rawOutput" style="background: #eee; padding: 10px; font-size: 11px; display: none;"></pre>
 
     <script>
+        // Auth Menu Update Function
+        function updateAuthMenu() {
+            const username = localStorage.getItem('loggedInUser');
+            const greeting = document.getElementById('user-greeting');
+            const buttons = document.getElementById('auth-buttons');
+            
+            if (username) {
+                greeting.textContent = `Hi, ${username}`;
+                buttons.innerHTML = `<button class="auth-btn logout-btn" onclick="handleLogout()">Logout</button>`;
+            } else {
+                greeting.textContent = 'Hi, Guest';
+                buttons.innerHTML = `<a href="login.html" class="auth-btn">Login</a><a href="regis.html" class="auth-btn">Register</a>`;
+            }
+        }
+        
+        function handleLogout() {
+            localStorage.removeItem('loggedInUser');
+            updateAuthMenu();
+            alert('Đã đăng xuất');
+        }
+        
+        // Update auth menu on page load
+        window.addEventListener('load', updateAuthMenu);
+        
         // Simple page navigation using hash
         function navigateTo(page) {
             window.location.hash = page.replace('#', '') || '';

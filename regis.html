@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đăng ký tài khoản</title>
+    <link rel="stylesheet" href="CSS & JS/style.css" />
+  </head>
+  <body>
+    <!-- Auth Menu Bar -->
+    <div class="auth-menu">
+      <div class="auth-greeting" id="user-greeting">Hi, Guest</div>
+      <div class="auth-buttons" id="auth-buttons">
+        <a href="login.html" class="auth-btn">Login</a>
+        <a href="regis.html" class="auth-btn">Register</a>
+      </div>
+    </div>
+
+    <div class="main-shell">
+      <section class="auth-form-section">
+        <div class="auth-form-container">
+          <h1>Đăng ký tài khoản</h1>
+          <p class="auth-form-subtitle">Tạo tài khoản mới để bắt đầu</p>
+          
+          <div class="form-group">
+            <label for="fname">Tên tài khoản</label>
+            <input
+              type="text"
+              id="fname"
+              name="fname"
+              placeholder="Nhập tên tài khoản"
+              class="auth-input"
+            />
+          </div>
+          
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Nhập email của bạn"
+              class="auth-input"
+            />
+          </div>
+          
+          <div class="form-group">
+            <label for="password">Mật khẩu</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Nhập mật khẩu"
+              class="auth-input"
+            />
+          </div>
+          
+          <button class="action-btn" onclick="handleRegister()" style="width: 100%; margin-top: 16px;">
+            Đăng ký tạo tài khoản
+          </button>
+          
+          <p class="auth-link-text">
+            Đã có tài khoản? <a href="login.html" class="auth-link">Đăng nhập tại đây</a>
+          </p>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      function updateAuthMenu() {
+        const username = localStorage.getItem('loggedInUser');
+        const greeting = document.getElementById('user-greeting');
+        const buttons = document.getElementById('auth-buttons');
+        
+        if (username) {
+          greeting.textContent = `Hi, ${username}`;
+          buttons.innerHTML = `<button class="auth-btn logout-btn" onclick="handleLogout()">Logout</button>`;
+        } else {
+          greeting.textContent = 'Hi, Guest';
+          buttons.innerHTML = `<a href="login.html" class="auth-btn">Login</a><a href="regis.html" class="auth-btn">Register</a>`;
+        }
+      }
+      
+      function handleRegister() {
+        const username = document.getElementById('fname').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value.trim();
+        
+        if (!username || !email || !password) {
+          alert('Vui lòng điền tất cả các trường!');
+          return;
+        }
+        
+        if (!email.includes('@')) {
+          alert('Email không hợp lệ!');
+          return;
+        }
+        
+        localStorage.setItem('loggedInUser', username);
+        alert('Đăng kí thành công!');
+        window.location.href = 'index.html';
+      }
+      
+      function handleLogout() {
+        localStorage.removeItem('loggedInUser');
+        updateAuthMenu();
+        alert('Bạn đã đăng xuất');
+      }
+      
+      // Update menu on page load
+      window.addEventListener('load', updateAuthMenu);
+    </script>
+  </body>
+</html>
+
