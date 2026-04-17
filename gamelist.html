@@ -8,22 +8,24 @@
 
 </head>
 <body>
-    <!-- Auth Menu Bar -->
-    <div class="auth-menu">
-        <div class="auth-greeting" id="user-greeting">Hi, Guest</div>
-        <div class="auth-buttons" id="auth-buttons">
-            <a href="login.html" class="auth-btn">Login</a>
-            <a href="regis.html" class="auth-btn">Register</a>
-        </div>
-    </div>
-
-    <!-- Glossy Taskbar -->
-    <div class="glossy-taskbar">
-        <div class="taskbar-content">
-            <div class="taskbar-logo">🎮 Game Inspector</div>
-            <div class="taskbar-buttons">
-                <a href="index.html" class="taskbar-btn" style="text-decoration: none; color: white;">🏠 Home</a>
-                <a href="index.html#help" class="taskbar-btn" style="text-decoration: none; color: white;">❓ Help</a>
+    <!-- Unified Topbar -->
+    <div class="topbar">
+        <div class="topbar-inner">
+            <div class="topbar-left">
+                <div class="taskbar-logo">🎮 Game Inspector</div>
+                <div class="taskbar-buttons">
+                    <a href="index.html" class="taskbar-btn">🏠 Home</a>
+                    <a href="gamelist.html" class="taskbar-btn">📋 Game List</a>
+                    <a href="index.html#help" class="taskbar-btn">❓ Help</a>
+                </div>
+            </div>
+            <div class="auth-menu">
+                <div class="topbar-clock" id="topbar-clock">The time is --:--:-- --!</div>
+                <div class="auth-greeting" id="user-greeting">Hi, Guest</div>
+                <div class="auth-buttons" id="auth-buttons">
+                    <a href="login.html" class="auth-btn">Login</a>
+                    <a href="regis.html" class="auth-btn">Register</a>
+                </div>
             </div>
         </div>
     </div>

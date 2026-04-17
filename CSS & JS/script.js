@@ -42,6 +42,86 @@ async function getExtraInfo(endpoint, gameId) {
     }
 }
 
+function formatClockTime(date) {
+    const hours24 = date.getHours();
+    const ampm = hours24 >= 12 ? 'PM' : 'AM';
+    const hours = hours24 % 12 || 12;
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+    return `The time is ${hours}:${minutes}:${seconds} ${ampm}!`;
+}
+
+function updateTopbarClock() {
+    const clockEl = document.getElementById('topbar-clock');
+    if (!clockEl) return;
+    clockEl.textContent = formatClockTime(new Date());
+}
+
+function initTopbarClock() {
+    updateTopbarClock();
+    setInterval(updateTopbarClock, 1000);
+}
+
+window.addEventListener('load', initTopbarClock);
+
+// Button icon image URIs
+const BUTTON_ICON_REQUIREMENTS = 'data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Crect%20x%3D%226%22%20y%3D%224%22%20width%3D%2212%22%20height%3D%2216%22%20rx%3D%222%22%20fill%3D%22white%22%2F%3E%3Cpath%20d%3D%22M8%208h8M8%2012h8M8%2016h5%22%20stroke%3D%22%230d1521%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E';
+const BUTTON_ICON_REVIEWS = 'data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpolygon%20points%3D%2212%2C4%2015%2C11%2022%2C11%2017%2C15%2018.5%2C22%2012%2C18%205.5%2C22%207%2C15%202%2C11%209%2C11%22%20fill%3D%22white%22%20stroke%3D%22%230d1521%22%20stroke-width%3D%221%22%2F%3E%3C%2Fsvg%3E';
+const BUTTON_ICON_ARTWORKS = 'data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Crect%20x%3D%223%22%20y%3D%225%22%20width%3D%2218%22%20height%3D%2214%22%20rx%3D%222%22%20fill%3D%22white%22%2F%3E%3Ccircle%20cx%3D%228%22%20cy%3D%229%22%20r%3D%222%22%20fill%3D%22%230d1521%22%2F%3E%3Cpath%20d%3D%22M5%2017l4-4%203%203%205-5%202%202%22%20fill%3D%22none%22%20stroke%3D%22%230d1521%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E';
+const BUTTON_ICON_SCREENSHOTS = 'data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Crect%20x%3D%224%22%20y%3D%227%22%20width%3D%2216%22%20height%3D%2212%22%20rx%3D%222%22%20fill%3D%22white%22%2F%3E%3Ccircle%20cx%3D%228%22%20cy%3D%2211%22%20r%3D%221.5%22%20fill%3D%22%230d1521%22%2F%3E%3Cpath%20d%3D%22M16%2013l-3%203-2-2%22%20fill%3D%22none%22%20stroke%3D%22%230d1521%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E';
+const BUTTON_ICON_STORE = 'data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M4%207h16v12a2%202%200%200%201-2%202H6a2%202%200%200%201-2-2V7Z%22%20fill%3D%22white%22%2F%3E%3Cpath%20d%3D%22M8%207V5a4%204%200%200%201%208%200v2%22%20fill%3D%22none%22%20stroke%3D%22%230d1521%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M6%2011h12%22%20stroke%3D%22%230d1521%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E';
+
+function createIconButton(label, iconSrc, onClick) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'ios-btn action-image-btn';
+    button.onclick = onClick;
+    button.innerHTML = `
+        <img class="button-icon" src="${iconSrc}" alt="" aria-hidden="true">
+        <span>${label}</span>
+    `;
+    return button;
+}
+
+function renderActionButtons(gameId) {
+    const placeholder = document.getElementById('button-bar-placeholder');
+    if (!placeholder) return;
+
+    placeholder.innerHTML = '';
+    const actions = [
+        { label: 'Requirements', icon: BUTTON_ICON_REQUIREMENTS, onClick: () => showRequirements(gameId) },
+        { label: 'Top Reviews', icon: BUTTON_ICON_REVIEWS, onClick: () => showReviews(gameId) },
+        { label: 'Artworks', icon: BUTTON_ICON_ARTWORKS, onClick: () => showArtworks(gameId) },
+        { label: 'Screenshots', icon: BUTTON_ICON_SCREENSHOTS, onClick: () => showScreenshots(gameId) },
+        { label: 'Steam Store', icon: BUTTON_ICON_STORE, onClick: () => window.open(`https://store.steampowered.com/app/${gameId}`, '_blank') },
+    ];
+
+    actions.forEach(action => placeholder.appendChild(createIconButton(action.label, action.icon, action.onClick)));
+    placeholder.classList.remove('placeholder');
+}
+
+// Lazy button loader: only creates buttons when the action area is visible on screen.
+function attachActionButtonsLazy(gameId) {
+    const placeholder = document.getElementById('button-bar-placeholder');
+    if (!placeholder) return;
+
+    if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries, observerInstance) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    renderActionButtons(gameId);
+                    observerInstance.unobserve(entry.target);
+                }
+            });
+        }, { rootMargin: '100px 0px 100px 0px' });
+
+        observer.observe(placeholder);
+    } else {
+        // Fallback for old browsers
+        renderActionButtons(gameId);
+    }
+}
+
 
 
 // HÀM SHOW REVIEWS (Phải nằm ngoài)
@@ -177,12 +257,8 @@ function renderUI(response, gameId) {
             <h1 style="margin-bottom:5px;">${g.name}</h1>
             <p style="color:#64748b; font-size:12px; margin-bottom:15px;">AppID: ${gameId} | Release: ${g.release_date}</p>
 
-            <div class="button-bar" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;">
-                <button onclick="showRequirements('${gameId}')" class="ios-btn">Requirements</button>
-                <button onclick="showReviews('${gameId}')" class="ios-btn">Top Reviews</button>
-                <button onclick="showArtworks('${gameId}')" class="ios-btn">Artworks</button>
-                <button onclick="showScreenshots('${gameId}')" class="ios-btn">Screenshots</button>
-                <button onclick="window.open('https://store.steampowered.com/app/${gameId}', '_blank')" class="ios-btn">Steam Store</button>
+                    <div id="button-bar-placeholder" class="button-bar placeholder">
+                Loading actions...
             </div>
 
             <div id="extra-content"></div>
@@ -208,6 +284,7 @@ function renderUI(response, gameId) {
             </div>
         </div>
     `;
+    attachActionButtonsLazy(gameId); // Lazy button observer is attached here
 }
 
 
