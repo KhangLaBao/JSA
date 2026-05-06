@@ -29,6 +29,57 @@ async function searchGameIdByName(gameName) {
     return null; // Trả về null nếu không tìm thấy
 }
 
+
+
+
+
+
+// Function to check if user is logged in
+function isLoggedIn() {
+    return localStorage.getItem('loggedInUser') !== null;
+}
+
+// Handle clicks on the Game List button
+function handleGameListAccess(event) {
+    event.preventDefault(); // Prevent default link jumping behavior
+    
+    if (isLoggedIn()) {
+        window.location.href = "gamelist.html";
+    } else {
+        alert("You must log in to view the Game List!");
+        window.location.href = "login.html";
+    }
+}
+
+// Optional: Visually "lock" the button if not logged in
+function updateGameListButtonUI() {
+    const gameListBtns = document.querySelectorAll('.taskbar-btn');
+    gameListBtns.forEach(btn => {
+        if (btn.textContent.includes("Game List")) {
+            if (!isLoggedIn()) {
+                btn.style.opacity = "0.5";
+                btn.style.cursor = "not-allowed";
+                btn.title = "Please log in to unlock the Game List";
+            } else {
+                btn.style.opacity = "1";
+                btn.style.cursor = "pointer";
+                btn.removeAttribute('title');
+            }
+        }
+    });
+}
+
+// Call this function inside your existing 'load' event listener or inside updateAuthMenu()
+window.addEventListener('load', () => {
+    updateGameListButtonUI();
+});
+
+
+
+
+
+
+
 // Hàm lấy dữ liệu chung
 async function getExtraInfo(endpoint, gameId) {
     const url = `https://${API_HOST}/${endpoint}/${gameId}`;
